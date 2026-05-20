@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery Walk – Raumwirkung erleben</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300..700&display=swap" rel="stylesheet">
+<style>
+:root,[data-theme="light"]{
+  --bg:#f7f6f2;--surface:#f9f8f5;--s2:#ffffff;--offset:#f0ece6;--dynamic:#e6e4df;
+  --divider:#dcd9d5;--border:#d4d1ca;
+  --text:#28251d;--muted:#6b6a65;--faint:#b0afaa;--inverse:#f9f8f4;
+  --primary:#01696f;--ph:#0c4e54;--phi:#cde8e6;
+  --warm:#8b4513;--wbg:#fdf3e8;
+  --gc:#2e7d32;--gbg:#eef6ea;
+  --rc:#c62828;--rbg:#fdecea;
+  --oc:#c05700;--obg:#fff3e0;
+  --pur:#6a35b0;--pubg:#f3eefa;
+  --blue:#005a8f;--bbg:#e8f3fb;
+  --sh-sm:0 1px 4px oklch(.2 .01 80/.08);
+  --sh-md:0 4px 16px oklch(.2 .01 80/.11);
+  --sh-lg:0 12px 40px oklch(.2 .01 80/.15);
+  --r-sm:.375rem;--r-md:.5rem;--r-lg:.875rem;--r-xl:1.25rem;--r-full:9999px;
+  --tr:180ms cubic-bezier(.16,1,.3,1);
+  --fd:'Instrument Serif',Georgia,serif;--fb:'DM Sans','Helvetica Neue',sans-serif;
+}
+[data-theme="dark"]{
+  --bg:#171614;--surface:#1c1b19;--s2:#201f1d;--offset:#1d1c1a;--dynamic:#2d2c2a;
+  --divider:#262523;--border:#393836;
+  --text:#cdccca;--muted:#797876;--faint:#5a5957;--inverse:#2b2a28;
+  --primary:#4f98a3;--ph:#227f8b;--phi:#2a3f40;
+  --warm:#d4904e;--wbg:#2c2218;
+  --gc:#6daa45;--gbg:#1c2e14;
+  --rc:#e57373;--rbg:#2d1414;
+  --oc:#f4a340;--obg:#2a1e0c;
+  --pur:#a86fdf;--pubg:#221733;
+  --blue:#5591c7;--bbg:#152333;
+  --sh-sm:0 1px 4px oklch(0 0 0/.25);
+  --sh-md:0 4px 16px oklch(0 0 0/.35);
+  --sh-lg:0 12px 40px oklch(0 0 0/.45);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;scroll-padding-top:4.5rem}
+body{min-height:100dvh;font-family:var(--fb);font-size:clamp(1rem,.95rem + .25vw,1.125rem);
+  color:var(--text);background:var(--bg);line-height:1.65}
+img{display:block;max-width:100%;height:auto}
+h1,h2,h3,h4{font-family:var(--fd);line-height:1.15;text-wrap:balance}
+p,li{text-wrap:pretty}
+button{cursor:pointer;font-family:var(--fb);border:none;background:none}
+a,button,[role="button"]{transition:color var(--tr),background var(--tr),box-shadow var(--tr),transform var(--tr),opacity var(--tr)}
+:focus-visible{outline:2px solid var(--primary);outline-offset:3px;border-radius:var(--r-sm)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+::selection{background:oklch(from var(--primary) l c h/.2)}
+
+/* LAYOUT */
+.wrap{max-width:1140px;margin-inline:auto;padding-inline:clamp(1rem,4vw,2.5rem)}
+.wrap-md{max-width:860px;margin-inline:auto;padding-inline:clamp(1rem,4vw,2.5rem)}
+
+/* HEADER */
+.hdr{position:sticky;top:0;z-index:200;background:var(--surface);
+  border-bottom:1px solid var(--border);padding-block:.6rem}
+.hdr-in{display:flex;align-items:center;justify-content:space-between;gap:.75rem;
+  max-width:1140px;margin-inline:auto;padding-inline:clamp(1rem,4vw,2.5rem)}
+.logo{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--text)}
+.logo-t{font-family:var(--fd);font-size:clamp(1rem,.95rem + .2vw,1.2rem)}
+.logo-s{font-size:.7rem;color:var(--muted)}
+.hpills{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:.25rem;padding:.18rem .6rem;
+  border-radius:var(--r-full);font-size:.7rem;font-weight:700;
+  background:var(--phi);color:var(--primary)}
+.pill.w{background:var(--wbg);color:var(--warm)}
+.pill.p{background:var(--pubg);color:var(--pur)}
+.tt-btn{padding:.4rem;border-radius:var(--r-full);border:1px solid var(--border);
+  background:var(--offset);color:var(--muted);display:flex;align-items:center}
+.tt-btn:hover{background:var(--dynamic);color:var(--text)}
+
+/* PROGRESS BAR */
+.prog-bar{height:3px;background:var(--divider);position:sticky;top:49px;z-index:199}
+.prog-fill{height:100%;background:var(--primary);width:0%;transition:width .4s ease}
+
+/* STEP NAVI */
+.step-navi{display:flex;justify-content:center;gap:0;padding:1.25rem 0 0}
+.sn-item{display:flex;flex-direction:column;align-items:center;gap:.35rem;
+  flex:1;max-width:200px;cursor:pointer;opacity:.5;
+  transition:opacity var(--tr);position:relative}
+.sn-item.active,.sn-item.done{opacity:1}
+.sn-dot{width:32px;height:32px;border-radius:var(--r-full);background:var(--offset);
+  border:2px solid var(--border);display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;font-weight:700;color:var(--muted);transition:all var(--tr);z-index:1}
+.sn-item.active .sn-dot{background:var(--primary);border-color:var(--primary);color:#fff;
+  box-shadow:0 0 0 4px var(--phi)}
+.sn-item.done .sn-dot{background:var(--gc);border-color:var(--gc);color:#fff}
+.sn-lbl{font-size:.65rem;font-weight:600;text-align:center;color:var(--muted);
+  max-width:90px;line-height:1.3}
+.sn-item.active .sn-lbl{color:var(--primary)}
+.sn-item.done .sn-lbl{color:var(--gc)}
+.sn-line{position:absolute;top:15px;left:calc(50% + 16px);right:calc(-50% + 16px);
+  height:2px;background:var(--divider);z-index:0}
+.sn-item.done .sn-line{background:var(--gc)}
+.sn-item:last-child .sn-line{display:none}
+
+/* SECTION CARDS */
+.sec{padding-block:clamp(2.5rem,5vw,4rem);border-top:1px solid var(--divider)}
+.sec:first-of-type{border-top:none}
+.sec-eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--primary);margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.sec-h{font-size:clamp(1.4rem,1.1rem + 1vw,2rem);margin-bottom:.85rem}
+.sec-h em{color:var(--primary);font-style:italic}
+.sec-intro{font-size:.92rem;color:var(--muted);margin-bottom:1.75rem;max-width:68ch}
+
+/* PHASE HEADER */
+.phase-hd{display:flex;align-items:center;gap:.85rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.ph-num{width:52px;height:52px;border-radius:var(--r-full);background:var(--primary);
+  color:#fff;font-family:var(--fd);font-size:1.5rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--sh-md)}
+.ph-info{flex:1}
+.ph-title{font-family:var(--fd);font-size:clamp(1.15rem,1rem + .5vw,1.45rem);margin-bottom:.2rem}
+.ph-meta{display:flex;gap:.4rem;flex-wrap:wrap}
+.ph-tag{display:inline-flex;align-items:center;gap:.25rem;padding:.15rem .55rem;
+  border-radius:var(--r-full);font-size:.7rem;font-weight:600;
+  background:var(--wbg);color:var(--warm)}
+
+/* INSTRUKTIONSTIPS */
+.tip-box{background:var(--bbg);border:1px solid oklch(from var(--blue) l c h/.25);
+  border-radius:var(--r-lg);padding:.9rem 1.1rem;margin-bottom:1.5rem;
+  display:flex;align-items:flex-start;gap:.65rem}
+.tip-ico{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
+.tip-txt{font-size:.83rem;color:var(--blue)}
+
+/* MATERIAL BOX */
+.mat-box{background:var(--wbg);border:1px solid oklch(from var(--warm) l c h/.25);
+  border-radius:var(--r-lg);padding:.85rem 1rem;margin-top:1.25rem}
+.mat-lbl{font-size:.75rem;font-weight:700;color:var(--warm);
+  display:flex;align-items:center;gap:.35rem;margin-bottom:.5rem}
+.mat-chips{display:flex;flex-wrap:wrap;gap:.35rem}
+.mc{display:inline-flex;align-items:center;gap:.25rem;
+  padding:.18rem .6rem;background:var(--s2);
+  border:1px solid oklch(from var(--warm) l c h/.28);border-radius:var(--r-full);
+  font-size:.7rem;color:var(--muted)}
+
+/* PRAXIS NOTE */
+.prx{background:var(--gbg);border:1px solid oklch(from var(--gc) l c h/.25);
+  border-radius:var(--r-lg);padding:.8rem 1rem;margin-top:1rem}
+.prx-lbl{font-size:.75rem;font-weight:700;color:var(--gc);
+  display:flex;align-items:center;gap:.35rem;margin-bottom:.3rem}
+.prx p{font-size:.83rem;color:var(--muted)}
+
+/* ════════════════════════════════════
+   FOTO-GRID (Phase 1)
+════════════════════════════════════ */
+.foto-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:1rem;margin-top:1.25rem}
+.fc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  overflow:hidden;box-shadow:var(--sh-sm);transition:transform var(--tr),box-shadow var(--tr)}
+.fc:hover{transform:translateY(-3px);box-shadow:var(--sh-md)}
+.fc img{width:100%;height:180px;object-fit:cover;display:block}
+.fc-body{padding:.85rem 1rem 1rem}
+.fc-num{display:inline-flex;align-items:center;justify-content:center;
+  width:24px;height:24px;background:var(--primary);color:#fff;
+  border-radius:var(--r-full);font-size:.65rem;font-weight:700;margin-bottom:.35rem}
+.fc-ttl{font-size:.92rem;font-weight:700;margin-bottom:.2rem}
+.fc-desc{font-size:.78rem;color:var(--muted);line-height:1.5;margin-bottom:.55rem}
+.fc-tags{display:flex;flex-wrap:wrap;gap:.25rem}
+.ftag{padding:.1rem .5rem;border-radius:var(--r-full);font-size:.67rem;
+  background:var(--offset);color:var(--muted)}
+
+/* NOTIZFELD */
+.note-wrap{margin-top:.65rem;border-top:1px solid var(--border);padding-top:.6rem}
+.note-wrap textarea{width:100%;min-height:58px;border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:.4rem .55rem;font-size:.78rem;
+  font-family:var(--fb);background:var(--s2);color:var(--text);resize:vertical;line-height:1.5}
+.note-wrap textarea:focus{outline:2px solid var(--primary);outline-offset:2px}
+.dot-btns{display:flex;gap:.4rem;margin-top:.4rem}
+.db{flex:1;padding:.3rem .45rem;border-radius:var(--r-full);
+  font-size:.7rem;font-weight:700;border:none;cursor:pointer;transition:all var(--tr)}
+.db.g{background:#c8e6c9;color:#1b5e20}.db.g:hover{background:#a5d6a7}
+.db.g.on{background:#43a047;color:#fff}
+.db.r{background:#ffcdd2;color:#b71c1c}.db.r:hover{background:#ef9a9a}
+.db.r.on{background:#e53935;color:#fff}
+.dot-ind{display:flex;gap:.3rem;margin-top:.3rem;min-height:16px;flex-wrap:wrap}
+.vdot{width:14px;height:14px;border-radius:var(--r-full);border:2px solid var(--border)}
+.vdot.g{background:#43a047;border-color:#43a047}
+.vdot.r{background:#e53935;border-color:#e53935}
+
+/* ════════════════════════════════════
+   INDUKTIV (Phase 2) – Textfelder
+════════════════════════════════════ */
+.ind-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr));gap:.85rem;margin-top:1.25rem}
+.ind-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:1rem 1.1rem;box-shadow:var(--sh-sm)}
+.ind-q{font-size:.82rem;font-weight:700;color:var(--primary);margin-bottom:.4rem}
+.ind-ta{width:100%;min-height:68px;border:1px solid var(--border);border-radius:var(--r-sm);
+  padding:.4rem .55rem;font-size:.8rem;font-family:var(--fb);
+  background:var(--s2);color:var(--text);resize:vertical;line-height:1.5}
+.ind-ta:focus{outline:2px solid var(--primary);outline-offset:2px}
+.partner-box{background:var(--pubg);border:1px solid oklch(from var(--pur) l c h/.25);
+  border-radius:var(--r-lg);padding:1.1rem 1.25rem;margin-top:1.5rem}
+.pb-lbl{font-size:.8rem;font-weight:700;color:var(--pur);display:flex;align-items:center;gap:.35rem;margin-bottom:.7rem}
+.merge-chips{display:flex;flex-wrap:wrap;gap:.45rem;min-height:40px;padding:.4rem;
+  background:var(--s2);border-radius:var(--r-md);border:1px dashed var(--border);margin-bottom:.6rem}
+.mchip{padding:.25rem .7rem;background:var(--pubg);border:1px solid oklch(from var(--pur) l c h/.3);
+  border-radius:var(--r-full);font-size:.75rem;color:var(--pur);cursor:pointer;
+  transition:all var(--tr)}
+.mchip:hover{background:var(--pur);color:#fff}
+#merge-ta{width:100%;min-height:52px;border:1px solid var(--border);border-radius:var(--r-sm);
+  padding:.4rem .55rem;font-size:.8rem;font-family:var(--fb);
+  background:var(--s2);color:var(--text);resize:vertical}
+#merge-ta:focus{outline:2px solid var(--primary)}
+
+/* ════════════════════════════════════
+   KRITERIEN-VERGLEICH (Phase 3)
+════════════════════════════════════ */
+.krit-compare{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.25rem}
+.krit-col h4{font-size:.85rem;font-weight:700;margin-bottom:.85rem;
+  padding-bottom:.5rem;border-bottom:2px solid var(--divider)}
+.krit-col h4.self{color:var(--gc);border-color:var(--gc)}
+.krit-col h4.theo{color:var(--primary);border-color:var(--primary)}
+.krit-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:.5rem}
+.krit-item{padding:.55rem .8rem;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-md);font-size:.83rem;display:flex;align-items:flex-start;gap:.5rem}
+.krit-item .ki-ico{font-size:1.1rem;flex-shrink:0}
+.krit-item .ki-lbl{font-weight:700;margin-bottom:.15rem}
+.krit-item .ki-txt{font-size:.75rem;color:var(--muted);line-height:1.45}
+.found-tag{margin-left:auto;flex-shrink:0;font-size:.65rem;font-weight:700;
+  padding:.1rem .5rem;border-radius:var(--r-full)}
+.found-tag.y{background:var(--gbg);color:var(--gc)}
+.found-tag.n{background:var(--rbg);color:var(--rc)}
+.reveal-btn{display:block;margin:1.25rem auto 0;padding:.55rem 1.5rem;
+  background:var(--primary);color:#fff;border-radius:var(--r-full);
+  font-size:.82rem;font-weight:700;border:none;cursor:pointer;transition:background var(--tr)}
+.reveal-btn:hover{background:var(--ph)}
+#theo-compare{display:none;margin-top:1.25rem}
+
+/* ════════════════════════════════════
+   BEWERTUNG (Phase 4)
+════════════════════════════════════ */
+.bew-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:1.25rem;margin-top:1.25rem}
+.bew-card{background:var(--surface);border:2px solid var(--border);border-radius:var(--r-xl);
+  overflow:hidden;box-shadow:var(--sh-sm);transition:box-shadow var(--tr)}
+.bew-card.complete{border-color:var(--primary)}
+.bew-img{position:relative}
+.bew-img img{width:100%;height:165px;object-fit:cover;display:block}
+.bew-num{position:absolute;top:.5rem;left:.5rem;background:var(--primary);color:#fff;
+  width:26px;height:26px;border-radius:var(--r-full);font-size:.7rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center}
+.bew-score{position:absolute;top:.5rem;right:.5rem;background:var(--text);color:var(--inverse);
+  padding:.2rem .6rem;border-radius:var(--r-full);font-size:.72rem;font-weight:700;
+  font-variant-numeric:tabular-nums;display:none}
+.bew-body{padding:1rem 1.1rem 1.1rem}
+.bew-ttl{font-size:.92rem;font-weight:700;margin-bottom:.75rem}
+.krit-checks{display:flex;flex-direction:column;gap:.4rem}
+.kc{display:flex;align-items:center;gap:.6rem;padding:.4rem .65rem;
+  background:var(--offset);border-radius:var(--r-md);cursor:pointer;
+  transition:background var(--tr),border var(--tr);border:2px solid transparent;
+  font-size:.82rem;font-weight:500;user-select:none}
+.kc:hover{background:var(--dynamic)}
+.kc.yes{background:var(--gbg);border-color:var(--gc);color:var(--gc)}
+.kc.no{background:var(--rbg);border-color:var(--rc);color:var(--rc)}
+.kc.partial{background:var(--obg);border-color:var(--oc);color:var(--oc)}
+.kc-ico{flex-shrink:0;font-size:1rem}
+.kc-txt{flex:1}
+.kc-state{flex-shrink:0;font-size:.7rem;font-weight:700;
+  padding:.1rem .45rem;border-radius:var(--r-full);background:var(--dynamic);color:var(--muted)}
+.kc.yes .kc-state{background:var(--gbg);color:var(--gc)}
+.kc.no .kc-state{background:var(--rbg);color:var(--rc)}
+.kc.partial .kc-state{background:var(--obg);color:var(--oc)}
+.bew-notiz{margin-top:.75rem}
+.bew-notiz textarea{width:100%;min-height:50px;border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:.4rem .55rem;font-size:.78rem;
+  font-family:var(--fb);background:var(--s2);color:var(--text);resize:vertical}
+.bew-notiz textarea:focus{outline:2px solid var(--primary)}
+
+/* GESAMT-SCORE */
+.score-box{background:var(--surface);border:2px solid var(--primary);border-radius:var(--r-xl);
+  padding:1.5rem 1.75rem;margin-top:2rem;display:none}
+.score-box.show{display:block}
+.sb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.85rem;margin-top:1rem}
+.sb-k{background:var(--offset);border-radius:var(--r-lg);padding:.8rem;text-align:center}
+.sb-k .sb-ico{font-size:1.5rem}
+.sb-k .sb-n{font-size:.8rem;font-weight:700;margin:.3rem 0 .2rem}
+.sb-k .sb-bar{height:6px;background:var(--divider);border-radius:var(--r-full);overflow:hidden;margin-bottom:.25rem}
+.sb-k .sb-fill{height:100%;background:var(--primary);border-radius:var(--r-full);transition:width .8s ease}
+.sb-k .sb-pct{font-size:.7rem;color:var(--muted)}
+
+/* LERNTAGEBUCH */
+.lt-box{background:var(--pubg);border:1px solid oklch(from var(--pur) l c h/.25);
+  border-radius:var(--r-xl);padding:1.5rem 1.75rem;margin-top:2rem}
+.lt-lbl{font-size:.85rem;font-weight:700;color:var(--pur);margin-bottom:.85rem;
+  display:flex;align-items:center;gap:.4rem}
+.lt-qs{display:flex;flex-direction:column;gap:.85rem}
+.lt-q{font-size:.82rem;font-style:italic;color:var(--muted);margin-bottom:.3rem;line-height:1.5}
+.lt-box textarea{width:100%;min-height:62px;border:1px solid oklch(from var(--pur) l c h/.25);
+  border-radius:var(--r-sm);padding:.4rem .55rem;font-size:.8rem;
+  font-family:var(--fb);background:var(--s2);color:var(--text);resize:vertical}
+.lt-box textarea:focus{outline:2px solid var(--pur);outline-offset:2px}
+
+/* QUELLEN */
+.q-sec{background:var(--offset);border-top:1px solid var(--divider);padding-block:clamp(2.5rem,5vw,4rem)}
+.q-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:.85rem;margin-top:1.25rem}
+.qcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.1rem 1.2rem}
+.qa{font-size:.8rem;font-weight:700;color:var(--primary);margin-bottom:.2rem}
+.qt{font-size:.88rem;font-weight:700;margin-bottom:.25rem}
+.qm{font-size:.78rem;color:var(--muted);line-height:1.55}
+.qq{margin-top:.5rem;padding:.4rem .7rem;background:var(--offset);
+  border-left:3px solid var(--primary);border-radius:0 var(--r-sm) var(--r-sm) 0;
+  font-size:.75rem;color:var(--muted);font-style:italic;line-height:1.5}
+
+/* TOOLBAR */
+.toolbar{position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);
+  z-index:300;pointer-events:none;width:min(520px,calc(100vw - 2rem))}
+.tb{display:flex;align-items:center;justify-content:center;gap:.35rem;
+  background:var(--text);color:var(--inverse);padding:.45rem .85rem;
+  border-radius:var(--r-full);box-shadow:var(--sh-lg);pointer-events:all;flex-wrap:wrap}
+.tb-btn{display:flex;align-items:center;gap:.3rem;
+  padding:.32rem .75rem;border-radius:var(--r-full);font-size:.73rem;font-weight:700;
+  background:oklch(from var(--inverse) l c h/.1);color:inherit;cursor:pointer;
+  transition:background var(--tr)}
+.tb-btn:hover{background:oklch(from var(--inverse) l c h/.2)}
+.tb-btn.on{background:var(--primary);color:#fff}
+.tdiv{width:1px;height:18px;background:oklch(from var(--inverse) l c h/.2);flex-shrink:0}
+.timer{font-variant-numeric:tabular-nums;font-weight:700;font-size:.92rem;
+  min-width:48px;text-align:center}
+
+footer{border-top:1px solid var(--divider);padding:1.25rem 0;
+  text-align:center;font-size:.72rem;color:var(--faint)}
+
+/* ANIM */
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fu .4s cubic-bezier(.16,1,.3,1) both}
+
+@media(max-width:680px){
+  .krit-compare{grid-template-columns:1fr}
+  .hpills{display:none}
+}
+@media(max-width:480px){
+  .sn-lbl{display:none}
+  .sn-item{max-width:60px}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-in">
+    <a class="logo" href="#">
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-label="Gallery Walk">
+        <rect width="34" height="34" rx="8" fill="var(--primary)"/>
+        <rect x="5" y="8" width="9" height="7" rx="2" fill="white" opacity=".9"/>
+        <rect x="20" y="8" width="9" height="7" rx="2" fill="white" opacity=".6"/>
+        <rect x="5" y="19" width="9" height="7" rx="2" fill="white" opacity=".6"/>
+        <rect x="20" y="19" width="9" height="7" rx="2" fill="white" opacity=".9"/>
+        <circle cx="17" cy="17" r="2.5" fill="white"/>
+      </svg>
+      <div>
+        <div class="logo-t">Gallery Walk – Raumwirkung erleben</div>
+        <div class="logo-s">EBG · LF 4 · 2BKSP2</div>
+      </div>
+    </a>
+    <div class="hpills">
+      <span class="pill p">Modul 1–2</span>
+      <span class="pill w">⏱ 25 min</span>
+      <span class="pill">Induktiv</span>
+    </div>
+    <button class="tt-btn" data-theme-toggle aria-label="Farbschema">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+  </div>
+</header>
+<div class="prog-bar"><div class="prog-fill" id="pf"></div></div>
+
+<!-- STEP NAVIGATION -->
+<div class="wrap" style="padding-block:.25rem 0">
+  <nav class="step-navi" aria-label="Schritte">
+    <div class="sn-item active" id="sn1" onclick="scrollTo_(1)">
+      <div class="sn-dot">1</div>
+      <div class="sn-lbl">Fotos betrachten</div>
+      <div class="sn-line"></div>
+    </div>
+    <div class="sn-item" id="sn2" onclick="scrollTo_(2)">
+      <div class="sn-dot">2</div>
+      <div class="sn-lbl">Kriterien erarbeiten</div>
+      <div class="sn-line"></div>
+    </div>
+    <div class="sn-item" id="sn3" onclick="scrollTo_(3)">
+      <div class="sn-dot">3</div>
+      <div class="sn-lbl">Theorie vergleichen</div>
+      <div class="sn-line"></div>
+    </div>
+    <div class="sn-item" id="sn4" onclick="scrollTo_(4)">
+      <div class="sn-dot">4</div>
+      <div class="sn-lbl">Fotos bewerten</div>
+      <div class="sn-line"></div>
+    </div>
+    <div class="sn-item" id="sn5" onclick="scrollTo_(5)">
+      <div class="sn-dot">5</div>
+      <div class="sn-lbl">Lerntagebuch</div>
+      <div class="sn-line"></div>
+    </div>
+  </nav>
+</div>
+
+<!-- ══════════════ PHASE 1: FOTOS ══════════════ -->
+<section class="sec" id="sec1">
+  <div class="wrap-md">
+    <div class="sec-eyebrow">🖼 Phase 1 von 5</div>
+    <h2 class="sec-h">Stille Betrachtung der <em>Kita-Raumfotos</em></h2>
+    <p class="sec-intro">Betrachtet die Fotos still und ohne Absprache (je ca. 45–60 Sek.). Schreibt eure spontane Reaktion, euer Gefühl und erste Eindrücke auf. Vergebt dann je einen grünen und einen roten Punkt.</p>
+    <div class="tip-box">
+      <div class="tip-ico">💡</div>
+      <div class="tip-txt">Aktiviert den <strong>📝 Notizmodus</strong> in der Toolbar (unten), damit die Notiz- und Punkt-Felder sichtbar werden. Keine Absprachen in dieser Phase!</div>
+    </div>
+    <div class="foto-grid" id="fotogrid">
+
+      <!-- FOTO 1 -->
+      <div class="fc" data-id="f1">
+        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/58a92225946502c40e3a6dd909dbed33fd7b69fd.jpg" alt="Reggio-Gruppenraum aus Vogelperspektive – Holzmöbel, Pflanzen, helle Fenster" width="560" height="180" loading="eager">
+        <div class="fc-body">
+          <div class="fc-num">1</div>
+          <div class="fc-ttl">Reggio-Gruppenraum</div>
+          <div class="fc-desc">Helle Holzmöbel, Pflanzen, große Fenster. Übersichtlich, naturmaterialreich, Reggio-inspiriert.</div>
+          <div class="fc-tags"><span class="ftag">hell</span><span class="ftag">Reggio</span><span class="ftag">Elementar</span><span class="ftag">offen</span></div>
+          <div class="note-wrap notefield" style="display:none">
+            <textarea placeholder="Spontanreaktion, Gefühl, erster Eindruck…"></textarea>
+            <div class="dot-btns">
+              <button class="db g" onclick="setDot('f1','g',this)">🟢 Wohl gefühlt</button>
+              <button class="db r" onclick="setDot('f1','r',this)">🔴 Unbehaglich</button>
+            </div>
+            <div class="dot-ind" id="di_f1"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOTO 2 -->
+      <div class="fc" data-id="f2">
+        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/9d3475496b317122e9c8394a0c4431d6fba25429.jpg" alt="Klassischer strukturierter Kita-Gruppenraum mit Tischen und Regalen" width="560" height="180" loading="lazy">
+        <div class="fc-body">
+          <div class="fc-num">2</div>
+          <div class="fc-ttl">Klassischer Gruppenraum</div>
+          <div class="fc-desc">Strukturierter Aufbau: Tische, Stühle, Regale an den Wänden. Hell, übersichtlich, funktional.</div>
+          <div class="fc-tags"><span class="ftag">hell</span><span class="ftag">strukturiert</span><span class="ftag">Elementar</span></div>
+          <div class="note-wrap notefield" style="display:none">
+            <textarea placeholder="Spontanreaktion, Gefühl, erster Eindruck…"></textarea>
+            <div class="dot-btns">
+              <button class="db g" onclick="setDot('f2','g',this)">🟢 Wohl gefühlt</button>
+              <button class="db r" onclick="setDot('f2','r',this)">🔴 Unbehaglich</button>
+            </div>
+            <div class="dot-ind" id="di_f2"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOTO 3 -->
+      <div class="fc" data-id="f3">
+        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/a2942dff7883247f57ce551b4636714c88b07cef.jpg" alt="Kita-Lernwerkstatt mit offenen Regalen und Pflanzen" width="560" height="180" loading="lazy">
+        <div class="fc-body">
+          <div class="fc-num">3</div>
+          <div class="fc-ttl">Lernwerkstatt-Charakter</div>
+          <div class="fc-desc">Offene Regale – Materialien auf einen Blick erkennbar. Pflanzen, kleine Tische, Fensterblick.</div>
+          <div class="fc-tags"><span class="ftag">Lernwerkstatt</span><span class="ftag">offen</span><span class="ftag">hell</span></div>
+          <div class="note-wrap notefield" style="display:none">
+            <textarea placeholder="Spontanreaktion, Gefühl, erster Eindruck…"></textarea>
+            <div class="dot-btns">
+              <button class="db g" onclick="setDot('f3','g',this)">🟢 Wohl gefühlt</button>
+              <button class="db r" onclick="setDot('f3','r',this)">🔴 Unbehaglich</button>
+            </div>
+            <div class="dot-ind" id="di_f3"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOTO 4 -->
+      <div class="fc" data-id="f4">
+        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/e6e7e5b0c6582b70187a97c1e739aec0b60ac811.jpg" alt="Reizintensiver bunter Kita-Raum mit Lampions und Dekoration" width="560" height="180" loading="lazy">
+        <div class="fc-body">
+          <div class="fc-num">4</div>
+          <div class="fc-ttl">Bunt &amp; reizintensiv</div>
+          <div class="fc-desc">Viele Farben, Dekorationen, Lampions, Hängenetz. Dicht und belebt – als Kontrastbild gewählt.</div>
+          <div class="fc-tags"><span class="ftag">bunt</span><span class="ftag">überladen</span><span class="ftag">reizintensiv</span></div>
+          <div class="note-wrap notefield" style="display:none">
+            <textarea placeholder="Spontanreaktion, Gefühl, erster Eindruck…"></textarea>
+            <div class="dot-btns">
+              <button class="db g" onclick="setDot('f4','g',this)">🟢 Wohl gefühlt</button>
+              <button class="db r" onclick="setDot('f4','r',this)">🔴 Unbehaglich</button>
+            </div>
+            <div class="dot-ind" id="di_f4"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOTO 5 -->
+      <div class="fc" data-id="f5">
+        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/3be00cc112080f19603a9cc0c128b49364bb6d6f.jpg" alt="Naturnaher Kita-Außenraum mit Erde, Baumstumpf und Seil" width="560" height="180" loading="lazy">
+        <div class="fc-body">
+          <div class="fc-num">5</div>
+          <div class="fc-ttl">Naturnaher Außenraum</div>
+          <div class="fc-desc">Erde, Baumstumpf, Seil – keine Plastikgeräte. Naturmaterialien als Bildungsraum.</div>
+          <div class="fc-tags"><span class="ftag">Außen</span><span class="ftag">Natur</span><span class="ftag">Bewegung</span></div>
+          <div class="note-wrap notefield" style="display:none">
+            <textarea placeholder="Spontanreaktion, Gefühl, erster Eindruck…"></textarea>
+            <div class="dot-btns">
+              <button class="db g" onclick="setDot('f5','g',this)">🟢 Wohl gefühlt</button>
+              <button class="db r" onclick="setDot('f5','r',this)">🔴 Unbehaglich</button>
+            </div>
+            <div class="dot-ind" id="di_f5"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOTO 6 -->
+      <div class="fc" data-id="f6">
+        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/f98cae21ec523ee71ea23ae0ee852567a4610386.jpg" alt="Kita-Kuschelecke mit Baldachinen und weichen Sitzelementen" width="560" height="180" loading="lazy">
+        <div class="fc-body">
+          <div class="fc-num">6</div>
+          <div class="fc-ttl">Kuschelecke / Rückzugsort</div>
+          <div class="fc-desc">Gelbe Baldachine, weiche Elemente, gedämpftes Licht. Geborgenheit und Rückzugsmöglichkeit.</div>
+          <div class="fc-tags"><span class="ftag">Geborgenheit</span><span class="ftag">Rückzug</span><span class="ftag">warm</span></div>
+          <div class="note-wrap notefield" style="display:none">
+            <textarea placeholder="Spontanreaktion, Gefühl, erster Eindruck…"></textarea>
+            <div class="dot-btns">
+              <button class="db g" onclick="setDot('f6','g',this)">🟢 Wohl gefühlt</button>
+              <button class="db r" onclick="setDot('f6','r',this)">🔴 Unbehaglich</button>
+            </div>
+            <div class="dot-ind" id="di_f6"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOTO 7 -->
+      <div class="fc" data-id="f7">
+        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/21f0bfe0e8b3e2e34c155258e02c2a92b3ca0548.jpg" alt="Krippenraum mit buntem Sitzelement und hellen Regalen für 0-3 Jährige" width="560" height="180" loading="lazy">
+        <div class="fc-body">
+          <div class="fc-num">7</div>
+          <div class="fc-ttl">Krippenraum (0–3 J.)</div>
+          <div class="fc-desc">Bodennähe, weiches Sitzelement, helle Ausstattung. Gestaltung für Kleinstkinder: Bewegungsfreiheit.</div>
+          <div class="fc-tags"><span class="ftag">Krippe</span><span class="ftag">0–3 J.</span><span class="ftag">bodennah</span></div>
+          <div class="note-wrap notefield" style="display:none">
+            <textarea placeholder="Spontanreaktion, Gefühl, erster Eindruck…"></textarea>
+            <div class="dot-btns">
+              <button class="db g" onclick="setDot('f7','g',this)">🟢 Wohl gefühlt</button>
+              <button class="db r" onclick="setDot('f7','r',this)">🔴 Unbehaglich</button>
+            </div>
+            <div class="dot-ind" id="di_f7"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOTO 8 -->
+      <div class="fc" data-id="f8">
+        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/b2a3cbe3bf8ac22d1b30f15be0e9e7cd335812c6.jpg" alt="Moderner Kita-Raum mit Holzlamellen, Polsterstufen und großen Fenstern" width="560" height="180" loading="lazy">
+        <div class="fc-body">
+          <div class="fc-num">8</div>
+          <div class="fc-ttl">Naturmaterialien / Holz</div>
+          <div class="fc-desc">Holzlamellen-Decke, grüne Polsterstufen, große Fenster. Minimalistisch, moderne Kita-Architektur.</div>
+          <div class="fc-tags"><span class="ftag">minimalistisch</span><span class="ftag">Holz</span><span class="ftag">modern</span></div>
+          <div class="note-wrap notefield" style="display:none">
+            <textarea placeholder="Spontanreaktion, Gefühl, erster Eindruck…"></textarea>
+            <div class="dot-btns">
+              <button class="db g" onclick="setDot('f8','g',this)">🟢 Wohl gefühlt</button>
+              <button class="db r" onclick="setDot('f8','r',this)">🔴 Unbehaglich</button>
+            </div>
+            <div class="dot-ind" id="di_f8"></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /fotogrid -->
+
+    <div class="mat-box" style="margin-top:1.5rem">
+      <div class="mat-lbl">📦 Material Phase 1</div>
+      <div class="mat-chips">
+        <span class="mc">🖼 6–8 A3-Raumfotos laminiert</span>
+        <span class="mc">🟢 Post-its grün</span>
+        <span class="mc">🔴 Post-its rot</span>
+        <span class="mc">🖊 Stifte</span>
+        <span class="mc">📱 Tablet / Notiz-App</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ PHASE 2: INDUKTIV ══════════════ -->
+<section class="sec" id="sec2">
+  <div class="wrap-md">
+    <div class="sec-eyebrow">🔍 Phase 2 von 5</div>
+    <h2 class="sec-h">Induktive Erarbeitung der <em>Qualitätskriterien</em></h2>
+    <p class="sec-intro">Zuerst allein, dann mit einer Partnerin – bevor ihr die Fachtheorie seht. Formuliert eigene Kriterien aus dem, was ihr bei den Fotos empfunden habt.</p>
+
+    <div class="tip-box">
+      <div class="tip-ico">💡</div>
+      <div class="tip-txt"><strong>Induktiv = vom Konkreten zur Regel:</strong> Ihr denkt noch nicht an Fachbegriffe – schreibt einfach auf, was euch bei den Fotos aufgefallen ist. Was macht einen Raum gut oder schlecht für Kinder?</div>
+    </div>
+
+    <div class="ind-grid">
+      <div class="ind-card">
+        <div class="ind-q">🟢 Was hatte der Raum mit dem grünen Punkt, was die anderen nicht hatten?</div>
+        <textarea class="ind-ta" placeholder="z.B. Es war hell, es gab Ecken zum Rückzug…"></textarea>
+      </div>
+      <div class="ind-card">
+        <div class="ind-q">🔴 Was störte dich am roten-Punkt-Raum besonders?</div>
+        <textarea class="ind-ta" placeholder="z.B. Zu eng, zu laut wirkend, keine Übersicht…"></textarea>
+      </div>
+      <div class="ind-card">
+        <div class="ind-q">🏃 Welche Möglichkeiten zur Bewegung hast du gesehen?</div>
+        <textarea class="ind-ta" placeholder="z.B. freie Bodenfläche, Hochebene, Außenbereich…"></textarea>
+      </div>
+      <div class="ind-card">
+        <div class="ind-q">🤝 Wo hätten Kinder ungestört allein sein – wo zusammen spielen können?</div>
+        <textarea class="ind-ta" placeholder="z.B. Kuschelecke, Podest, offene Mitte…"></textarea>
+      </div>
+      <div class="ind-card">
+        <div class="ind-q">🎨 Welche Rolle spielten Farben, Licht und Materialien?</div>
+        <textarea class="ind-ta" placeholder="z.B. Holz wirkt wärmer als Plastik, helles Licht…"></textarea>
+      </div>
+      <div class="ind-card">
+        <div class="ind-q">🔄 Welche Räume wirkten veränderbar – welche „fest"?</div>
+        <textarea class="ind-ta" placeholder="z.B. Locker aufgestellte Möbel vs. feste Einbauten…"></textarea>
+      </div>
+    </div>
+
+    <!-- PARTNERPHASE -->
+    <div class="partner-box">
+      <div class="pb-lbl">👥 Partneraustausch (3 min) – Gemeinsame Merkmale finden</div>
+      <p style="font-size:.83rem;color:var(--muted);margin-bottom:.85rem">Vergleicht eure Antworten. Auf welche <strong>3 gemeinsamen Kriterien</strong> könnt ihr euch einigen? Klickt auf Vorschläge oder schreibt eigene:</p>
+      <div class="merge-chips" id="merge-chips">
+        <span class="mchip" onclick="addMerge('Licht &amp; Helligkeit')">☀️ Licht &amp; Helligkeit</span>
+        <span class="mchip" onclick="addMerge('Rückzugsmöglichkeiten')">🏠 Rückzugsmöglichkeiten</span>
+        <span class="mchip" onclick="addMerge('Bewegungsfreiheit')">🏃 Bewegungsfreiheit</span>
+        <span class="mchip" onclick="addMerge('Natürliche Materialien')">🌿 Natürliche Materialien</span>
+        <span class="mchip" onclick="addMerge('Übersichtlichkeit')">🗂 Übersichtlichkeit</span>
+        <span class="mchip" onclick="addMerge('Gemeinschaftsflächen')">🤝 Gemeinschaftsflächen</span>
+        <span class="mchip" onclick="addMerge('Ästhetik &amp; Ordnung')">🎨 Ästhetik &amp; Ordnung</span>
+        <span class="mchip" onclick="addMerge('Sicherheit')">🔐 Sicherheit</span>
+      </div>
+      <div id="merge-result" style="min-height:32px;display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.6rem"></div>
+      <textarea id="merge-ta" placeholder="Oder eigene Formulierung eingeben…"></textarea>
+    </div>
+
+    <div class="mat-box">
+      <div class="mat-lbl">📦 Material Phase 2</div>
+      <div class="mat-chips">
+        <span class="mc">📝 Heft / Notiz-App</span>
+        <span class="mc">🖊 Stifte</span>
+        <span class="mc">🗒 Moderationskarten (optional)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ PHASE 3: VERGLEICH ══════════════ -->
+<section class="sec" id="sec3">
+  <div class="wrap-md">
+    <div class="sec-eyebrow">📚 Phase 3 von 5</div>
+    <h2 class="sec-h">Vergleich mit den <em>Kriterien nach Franz/Vollmer</em></h2>
+    <p class="sec-intro">Jetzt schaut ihr, welche der 6 wissenschaftlichen Qualitätskriterien ihr selbst gefunden habt – und welche euch gefehlt haben.</p>
+
+    <div class="tip-box">
+      <div class="tip-ico">💡</div>
+      <div class="tip-txt">Tragt zunächst eure eigenen Kriterien (aus Phase 2) in die linke Spalte ein. Klickt dann auf <strong>„Fachtheorie aufdecken"</strong>.</div>
+    </div>
+
+    <div class="krit-compare">
+      <div class="krit-col">
+        <h4 class="self">✍️ Eure Kriterien (Plenum)</h4>
+        <textarea style="width:100%;min-height:180px;border:1px solid var(--border);
+          border-radius:var(--r-md);padding:.65rem .8rem;font-size:.83rem;
+          font-family:var(--fb);background:var(--s2);color:var(--text);resize:vertical;line-height:1.6"
+          id="own-krit"
+          placeholder="1. …&#10;2. …&#10;3. …&#10;(Übernehmt eure Ergebnisse aus Phase 2)"></textarea>
+      </div>
+      <div class="krit-col">
+        <h4 class="theo">📖 Franz/Vollmer 2012</h4>
+        <ul class="krit-list" id="krit-list-theo">
+          <li class="krit-item"><span class="ki-ico">🔐</span><div><div class="ki-lbl">Sicherheit</div><div class="ki-txt">Keine Verletzungsgefahren, altersgemäße Materialien – körperl. Wohlbefinden als Bildungsgrundlage.</div></div></li>
+          <li class="krit-item"><span class="ki-ico">🏃</span><div><div class="ki-lbl">Bewegung</div><div class="ki-txt">Freie Flächen und Elemente, die Motorik fordern – drinnen und draußen.</div></div></li>
+          <li class="krit-item"><span class="ki-ico">🗂</span><div><div class="ki-lbl">Struktur</div><div class="ki-txt">Klare Gliederung in Bereiche: Kinder erkennen mit einem Blick, was wo möglich ist (Baum 2011).</div></div></li>
+          <li class="krit-item"><span class="ki-ico">🔄</span><div><div class="ki-lbl">Veränderbarkeit</div><div class="ki-txt">Flexibles Mobiliar: Räume, die Kinder mitgestalten und verändern können.</div></div></li>
+          <li class="krit-item"><span class="ki-ico">🎨</span><div><div class="ki-lbl">Ästhetik</div><div class="ki-txt">Farben, Materialien, Licht als pädagogische Mittel – wirken auf Wohlbefinden und Lernmotivation.</div></div></li>
+          <li class="krit-item"><span class="ki-ico">🤝</span><div><div class="ki-lbl">Soziales</div><div class="ki-txt">Rückzugsorte UND Gemeinschaftsbereiche – Kinder brauchen beides.</div></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <button class="reveal-btn" id="revBtn" onclick="revealSelf()">🔍 Welche habt ihr selbst gefunden? Markieren</button>
+
+    <div id="theo-compare">
+      <p style="font-size:.83rem;color:var(--muted);margin-bottom:1rem">Klickt an, ob ihr das Kriterium selbst formuliert habt:</p>
+      <div style="display:flex;flex-direction:column;gap:.5rem" id="self-check-list">
+        <label style="display:flex;align-items:center;gap:.75rem;cursor:pointer;padding:.55rem .8rem;background:var(--surface);border-radius:var(--r-md);border:1px solid var(--border);font-size:.88rem"><input type="checkbox" style="accent-color:var(--gc);width:16px;height:16px"> 🔐 Sicherheit hatten wir</label>
+        <label style="display:flex;align-items:center;gap:.75rem;cursor:pointer;padding:.55rem .8rem;background:var(--surface);border-radius:var(--r-md);border:1px solid var(--border);font-size:.88rem"><input type="checkbox" style="accent-color:var(--gc);width:16px;height:16px"> 🏃 Bewegung hatten wir</label>
+        <label style="display:flex;align-items:center;gap:.75rem;cursor:pointer;padding:.55rem .8rem;background:var(--surface);border-radius:var(--r-md);border:1px solid var(--border);font-size:.88rem"><input type="checkbox" style="accent-color:var(--gc);width:16px;height:16px"> 🗂 Struktur / Übersichtlichkeit hatten wir</label>
+        <label style="display:flex;align-items:center;gap:.75rem;cursor:pointer;padding:.55rem .8rem;background:var(--surface);border-radius:var(--r-md);border:1px solid var(--border);font-size:.88rem"><input type="checkbox" style="accent-color:var(--gc);width:16px;height:16px"> 🔄 Veränderbarkeit hatten wir</label>
+        <label style="display:flex;align-items:center;gap:.75rem;cursor:pointer;padding:.55rem .8rem;background:var(--surface);border-radius:var(--r-md);border:1px solid var(--border);font-size:.88rem"><input type="checkbox" style="accent-color:var(--gc);width:16px;height:16px"> 🎨 Ästhetik / Farbe / Licht hatten wir</label>
+        <label style="display:flex;align-items:center;gap:.75rem;cursor:pointer;padding:.55rem .8rem;background:var(--surface);border-radius:var(--r-md);border:1px solid var(--border);font-size:.88rem"><input type="checkbox" style="accent-color:var(--gc);width:16px;height:16px"> 🤝 Soziales (Rückzug + Gemeinschaft) hatten wir</label>
+      </div>
+      <div id="found-result" style="margin-top:1rem;padding:.75rem 1rem;background:var(--gbg);
+        border:1px solid oklch(from var(--gc) l c h/.3);border-radius:var(--r-lg);
+        font-size:.85rem;color:var(--gc);font-weight:700;display:none"></div>
+    </div>
+
+    <div class="prx" style="margin-top:1.5rem">
+      <div class="prx-lbl">🏫 Praxisbezug</div>
+      <p>Sucht auf eurem Tablet ein Foto aus eurer Praxiseinrichtung. Welche der 6 Kriterien sind dort erfüllt – welche nicht? Ihr werdet das gleich in Phase 4 direkt einschätzen.</p>
+    </div>
+
+    <div class="mat-box">
+      <div class="mat-lbl">📦 Material Phase 3</div>
+      <div class="mat-chips">
+        <span class="mc">📊 Franz/Vollmer-Handout</span>
+        <span class="mc">📽 Folie Beamer</span>
+        <span class="mc">📱 Eigenes Praxisfoto</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ PHASE 4: BEWERTUNG ══════════════ -->
+<section class="sec" id="sec4">
+  <div class="wrap-md">
+    <div class="sec-eyebrow">✅ Phase 4 von 5</div>
+    <h2 class="sec-h">Fotos bewerten – <em>Kriterien per Klick</em></h2>
+    <p class="sec-intro">Bewertet jetzt jeden Raum nach den 6 Kriterien von Franz/Vollmer. Klickt bei jedem Kriterium, ob es <span style="color:var(--gc);font-weight:700">✅ erfüllt</span>, <span style="color:var(--oc);font-weight:700">🟡 teilweise erfüllt</span> oder <span style="color:var(--rc);font-weight:700">❌ nicht erfüllt</span> ist. Klickt mehrfach zum Wechseln.</p>
+
+    <div class="bew-grid" id="bewgrid"></div>
+
+    <div class="score-box" id="scorebox">
+      <div style="font-family:var(--fd);font-size:clamp(1.2rem,1rem + .7vw,1.6rem);margin-bottom:.25rem">📊 Auswertung: Alle 8 Räume</div>
+      <p style="font-size:.83rem;color:var(--muted)">Wie oft wurde jedes Kriterium als „erfüllt" eingestuft? (von 8 möglichen)</p>
+      <div class="sb-grid" id="sbgrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ PHASE 5: LERNTAGEBUCH ══════════════ -->
+<section class="sec" id="sec5">
+  <div class="wrap-md">
+    <div class="sec-eyebrow">📓 Phase 5 von 5</div>
+    <h2 class="sec-h">Lerntagebuch &amp; <em>Praxistransfer</em></h2>
+    <p class="sec-intro">Überleitung: <em>„Räume können nicht nicht wirken"</em> (i.A. an Watzlawick). Notiert eure persönlichen Schlüsse – als Grundlage für das nächste Modul.</p>
+
+    <div class="lt-box">
+      <div class="lt-lbl">✏️ Lerntagebuch-Prompts</div>
+      <div class="lt-qs">
+        <div>
+          <div class="lt-q">1. Welches Foto hat mich am stärksten berührt – und warum? Was sagt das über meine pädagogische Haltung?</div>
+          <textarea placeholder="Mein Gedanke…"></textarea>
+        </div>
+        <div>
+          <div class="lt-q">2. Welches Kriterium war mir bis heute nicht bewusst? Was überrascht mich?</div>
+          <textarea placeholder="Mein Gedanke…"></textarea>
+        </div>
+        <div>
+          <div class="lt-q">3. Was würde ich in meiner Praxiseinrichtung als erstes verändern – und warum?</div>
+          <textarea placeholder="Mein Gedanke…"></textarea>
+        </div>
+        <div>
+          <div class="lt-q">4. Raum als „dritter Erzieher" (Malaguzzi): Was bedeutet das für meine spätere Arbeit?</div>
+          <textarea placeholder="Mein Gedanke…"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="prx" style="margin-top:1.5rem">
+      <div class="prx-lbl">🏫 Praxis-Hausaufgabe</div>
+      <p>Fotografiert in eurer Praxiseinrichtung einen Raum aus Kinderperspektive (bodennah). Bringt das Foto zur nächsten Stunde und ordnet es in die 6-Kriterien-Matrix ein (Arbeitsblatt M5).</p>
+    </div>
+
+    <div class="mat-box">
+      <div class="mat-lbl">📦 Material Phase 5</div>
+      <div class="mat-chips">
+        <span class="mc">📔 Lerntagebuch / Heft</span>
+        <span class="mc">📱 Smartphone Praxiseinrichtung</span>
+        <span class="mc">🗒 Arbeitsblatt M5 (Kriterien-Matrix)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUELLEN -->
+<section class="q-sec">
+  <div class="wrap-md">
+    <div class="sec-eyebrow">📚 Wissenschaftliche Grundlagen</div>
+    <h2 style="font-family:var(--fd);font-size:clamp(1.3rem,1rem + .9vw,1.8rem)">Quellenangaben</h2>
+    <div class="q-grid">
+      <div class="qcard"><div class="qa">Franz, Margit &amp; Vollmer, Monika</div><div class="qt">Qualitätskriterien der Raumgestaltung in Kindertagesstätten</div><div class="qm">KiTa aktuell Spezial, 3/2012</div><div class="qq">6 Kriterien: Sicherheit · Bewegung · Struktur · Veränderbarkeit · Ästhetik · Soziales – Basis für Phase 3 &amp; 4.</div></div>
+      <div class="qcard"><div class="qa">van Dieken, Christel</div><div class="qt">Ganz nah dabei. Wie Raumgestaltung die Entwicklung von Kindern fördert</div><div class="qm">Cornelsen, Berlin 2013, S. 22–31. ISBN 978-3-589-24561-2</div><div class="qq">„Räume wirken immer und haben Einfluss auf unser Wohlbefinden und auf die Beziehungen, die in diesem Raum stattfinden."</div></div>
+      <div class="qcard"><div class="qa">Watzlawick, Paul</div><div class="qt">Menschliche Kommunikation</div><div class="qm">Huber, Bern 1969. 1. Axiom: Man kann nicht nicht kommunizieren.</div><div class="qq">Analogie: Kein Raum ist neutral – er sendet immer Botschaften. Einstieg in Modul 1–2.</div></div>
+      <div class="qcard"><div class="qa">Baum, Heike</div><div class="qt">Funktionsräume und Lernwerkstätten als Bildungsoasen</div><div class="qm">kindergartenpaedagogik.de, Artikel 2289, 2011</div><div class="qq">„Kinder müssen mit einem Blick von der Tür aus die verfügbaren Materialien erkennen können."</div></div>
+      <div class="qcard"><div class="qa">Malaguzzi, Loris</div><div class="qt">Der Raum als Dritter Erzieher</div><div class="qm">In: Fthenakis (Hrsg.), Reggio-Pädagogik. Herder, Freiburg 1993</div><div class="qq">„Den Raum als dritten Erzieher zu begreifen, ist einer der Grundsätze der Pädagogik in Reggio."</div></div>
+      <div class="qcard"><div class="qa">Weber Herrmann, Gabriele</div><div class="qt">6 kindliche Grundbedürfnisse als Grundlage der Raumgestaltung</div><div class="qm">Bildungsräume für Kinder gestalten. Cornelsen, Berlin 2015</div><div class="qq">Bedürfnisse: Zusammensein · Bewegung · Entdecken · Gestalten · Ruhe · Selbstbestimmung → Modul 3.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="tb">
+    <span style="font-size:.7rem;opacity:.55">⏱</span>
+    <span class="timer" id="tdisp">25:00</span>
+    <div class="tdiv"></div>
+    <button class="tb-btn" id="tstart" onclick="timerToggle()">▶ Start</button>
+    <button class="tb-btn" onclick="timerReset()">↺</button>
+    <div class="tdiv"></div>
+    <button class="tb-btn" id="noteBtn" onclick="noteToggle()">📝 Notizen</button>
+    <div class="tdiv"></div>
+    <button class="tb-btn" onclick="scoreCalc()">📊 Auswertung</button>
+    <div class="tdiv"></div>
+    <button class="tb-btn" onclick="openPdfModal()" style="background:var(--primary);color:#fff">📄 PDF</button>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    EBG · LF 4 · 2BKSP2 · Tübingen 2026 · Gallery Walk – Raumwirkung erleben<br>
+    Franz/Vollmer 2012 · van Dieken 2013 · Watzlawick 1969 · Baum 2011 · Malaguzzi 1993 · Weber Herrmann 2015
+  </div>
+</footer>
+
+<script>
+/* ── DARK MODE ── */
+(function(){
+  const t=document.querySelector('[data-theme-toggle]'),r=document.documentElement;
+  let d=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  r.setAttribute('data-theme',d);
+  const moon='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  const sun='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+  if(t)t.addEventListener('click',()=>{d=d==='dark'?'light':'dark';r.setAttribute('data-theme',d);t.innerHTML=d==='dark'?sun:moon;});
+})();
+
+/* ── TIMER ── */
+let secs=25*60,running=false,iv=null;
+function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function timerToggle(){
+  if(secs<=0)return;running=!running;
+  const b=document.getElementById('tstart'),d=document.getElementById('tdisp');
+  if(running){b.textContent='⏸';b.classList.add('on');
+    iv=setInterval(()=>{secs--;d.textContent=fmt(secs);
+      if(secs<=60)d.style.color='#e53935';
+      if(secs<=0){clearInterval(iv);running=false;b.textContent='✅';b.classList.remove('on');}},1000);
+  }else{clearInterval(iv);b.textContent='▶ Start';b.classList.remove('on');}
+}
+function timerReset(){
+  clearInterval(iv);running=false;secs=25*60;
+  document.getElementById('tdisp').textContent='25:00';
+  document.getElementById('tdisp').style.color='';
+  document.getElementById('tstart').textContent='▶ Start';
+  document.getElementById('tstart').classList.remove('on');
+}
+
+/* ── NOTIZMODUS ── */
+let noteOn=false;
+function noteToggle(){
+  noteOn=!noteOn;
+  document.querySelectorAll('.notefield').forEach(el=>{el.style.display=noteOn?'block':'none';});
+  const b=document.getElementById('noteBtn');
+  b.textContent=noteOn?'✅ Notizen an':'📝 Notizen';
+  b.classList.toggle('on',noteOn);
+}
+
+/* ── DOTS FOTOS ── */
+const dotState={};
+function setDot(id,col,btn){
+  if(!dotState[id])dotState[id]={g:false,r:false};
+  const other=col==='g'?'r':'g';
+  dotState[id][col]=!dotState[id][col];
+  if(dotState[id][col])dotState[id][other]=false;
+  renderDots(id);
+  const card=btn.closest('.fc');
+  card.querySelectorAll('.db').forEach(b=>{
+    b.classList.toggle('on',(b===btn&&dotState[id][col]));
+  });
+}
+function renderDots(id){
+  const el=document.getElementById('di_'+id);if(!el)return;
+  el.innerHTML='';
+  if(dotState[id]&&dotState[id].g){const d=document.createElement('div');d.className='vdot g';el.appendChild(d);}
+  if(dotState[id]&&dotState[id].r){const d=document.createElement('div');d.className='vdot r';el.appendChild(d);}
+}
+
+/* ── PARTNER MERGE CHIPS ── */
+function addMerge(txt){
+  const c=document.getElementById('merge-result');
+  const ch=document.createElement('span');
+  ch.textContent=txt;
+  ch.style.cssText='padding:.25rem .7rem;background:var(--phi);color:var(--primary);border-radius:var(--r-full);font-size:.75rem;font-weight:700;display:inline-flex;align-items:center;gap:.3rem;cursor:pointer';
+  ch.title='Klicken zum Entfernen';
+  ch.onclick=()=>ch.remove();
+  c.appendChild(ch);
+}
+
+/* ── REVEAL SELF-CHECK ── */
+function revealSelf(){
+  const d=document.getElementById('theo-compare');
+  d.style.display='block';
+  document.getElementById('revBtn').style.display='none';
+  document.querySelectorAll('#self-check-list input').forEach(inp=>{
+    inp.addEventListener('change',updateFoundResult);
+  });
+}
+function updateFoundResult(){
+  const all=document.querySelectorAll('#self-check-list input');
+  const found=[...all].filter(i=>i.checked).length;
+  const el=document.getElementById('found-result');
+  el.style.display='block';
+  el.textContent=`Ihr habt ${found} von 6 Kriterien selbst gefunden! ${found>=5?'🎉 Sehr gut!':found>=3?'👍 Solide Basis!':'💡 Schaut noch einmal in eure Phase-2-Notizen.'}`;
+}
+
+/* ── BEWERTUNG AUFBAUEN ── */
+const fotos=[
+  {id:'f1',nr:1,ttl:'Reggio-Gruppenraum',img:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/58a92225946502c40e3a6dd909dbed33fd7b69fd.jpg'},
+  {id:'f2',nr:2,ttl:'Klassischer Gruppenraum',img:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/9d3475496b317122e9c8394a0c4431d6fba25429.jpg'},
+  {id:'f3',nr:3,ttl:'Lernwerkstatt-Charakter',img:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/a2942dff7883247f57ce551b4636714c88b07cef.jpg'},
+  {id:'f4',nr:4,ttl:'Bunt & reizintensiv',img:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/e6e7e5b0c6582b70187a97c1e739aec0b60ac811.jpg'},
+  {id:'f5',nr:5,ttl:'Naturnaher Außenraum',img:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/3be00cc112080f19603a9cc0c128b49364bb6d6f.jpg'},
+  {id:'f6',nr:6,ttl:'Kuschelecke / Rückzugsort',img:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/f98cae21ec523ee71ea23ae0ee852567a4610386.jpg'},
+  {id:'f7',nr:7,ttl:'Krippenraum (0–3 J.)',img:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/21f0bfe0e8b3e2e34c155258e02c2a92b3ca0548.jpg'},
+  {id:'f8',nr:8,ttl:'Naturmaterialien / Holz',img:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/b2a3cbe3bf8ac22d1b30f15be0e9e7cd335812c6.jpg'}
+];
+const krit=[
+  {ico:'🔐',lbl:'Sicherheit'},
+  {ico:'🏃',lbl:'Bewegung'},
+  {ico:'🗂',lbl:'Struktur'},
+  {ico:'🔄',lbl:'Veränderbarkeit'},
+  {ico:'🎨',lbl:'Ästhetik'},
+  {ico:'🤝',lbl:'Soziales'}
+];
+const bewState={};
+fotos.forEach(f=>{bewState[f.id]={};krit.forEach(k=>{bewState[f.id][k.lbl]='';});});
+
+function stateLabel(s){return s===''?'–':s==='yes'?'✅':s==='partial'?'🟡':'❌';}
+function stateClass(s){return s===''?'':s==='yes'?'yes':s==='partial'?'partial':'no';}
+function cycleState(s){return s===''?'yes':s==='yes'?'partial':s==='partial'?'no':'';}
+
+function buildBew(){
+  const grid=document.getElementById('bewgrid');
+  fotos.forEach(f=>{
+    const card=document.createElement('div');
+    card.className='bew-card';card.id='bew_'+f.id;
+    card.innerHTML=`
+      <div class="bew-img">
+        <img src="${f.img}" alt="${f.ttl}" width="560" height="165" loading="lazy">
+        <div class="bew-num">${f.nr}</div>
+        <div class="bew-score" id="sc_${f.id}">0/6</div>
+      </div>
+      <div class="bew-body">
+        <div class="bew-ttl">${f.ttl}</div>
+        <div class="krit-checks" id="kc_${f.id}">
+          ${krit.map(k=>`
+            <div class="kc" id="kc_${f.id}_${k.lbl}" onclick="cycleKrit('${f.id}','${k.lbl}')">
+              <span class="kc-ico">${k.ico}</span>
+              <span class="kc-txt">${k.lbl}</span>
+              <span class="kc-state" id="ks_${f.id}_${k.lbl}">–</span>
+            </div>`).join('')}
+        </div>
+        <div class="bew-notiz"><textarea placeholder="Begründung / Beobachtung…"></textarea></div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+buildBew();
+
+function cycleKrit(fid,klbl){
+  const cur=bewState[fid][klbl];
+  const next=cycleState(cur);
+  bewState[fid][klbl]=next;
+  const el=document.getElementById('kc_'+fid+'_'+klbl);
+  el.className='kc '+(next===''?'':stateClass(next));
+  document.getElementById('ks_'+fid+'_'+klbl).textContent=stateLabel(next);
+  updateCardScore(fid);
+}
+function updateCardScore(fid){
+  const states=Object.values(bewState[fid]);
+  const yes=states.filter(s=>s==='yes').length;
+  const partial=states.filter(s=>s==='partial').length;
+  const done=states.filter(s=>s!=='').length;
+  const sc=document.getElementById('sc_'+fid);
+  if(done>0){sc.style.display='';sc.textContent=yes+'/6 ✅'+(partial>0?' '+partial+'🟡':'');}
+  else sc.style.display='none';
+  const card=document.getElementById('bew_'+fid);
+  card.classList.toggle('complete',done===6);
+}
+
+function scoreCalc(){
+  const box=document.getElementById('scorebox');
+  box.classList.add('show');
+  const sg=document.getElementById('sbgrid');sg.innerHTML='';
+  krit.forEach(k=>{
+    const yes=fotos.filter(f=>bewState[f.id][k.lbl]==='yes').length;
+    const partial=fotos.filter(f=>bewState[f.id][k.lbl]==='partial').length;
+    const pct=Math.round((yes/fotos.length)*100);
+    const div=document.createElement('div');div.className='sb-k';
+    div.innerHTML=`<div class="sb-ico">${k.ico}</div><div class="sb-n">${k.lbl}</div>
+      <div class="sb-bar"><div class="sb-fill" style="width:${pct}%;background:var(--primary)"></div></div>
+      <div class="sb-pct">${yes}× ✅ ${partial>0?'/ '+partial+'× 🟡':''}</div>`;
+    sg.appendChild(div);
+  });
+  box.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* ── PROGRESS + STEP NAV ── */
+function updateProgress(){
+  const h=document.documentElement;
+  const pct=((h.scrollTop+window.innerHeight-h.clientHeight>0?h.scrollTop:h.scrollTop)/(h.scrollHeight-h.clientHeight))*100;
+  document.getElementById('pf').style.width=Math.min(100,pct)+'%';
+}
+function scrollTo_(n){document.getElementById('sec'+n).scrollIntoView({behavior:'smooth'});}
+function updateStepNav(){
+  for(let i=1;i<=5;i++){
+    const el=document.getElementById('sec'+i);
+    if(!el)continue;
+    const r=el.getBoundingClientRect();
+    const sn=document.getElementById('sn'+i);
+    if(r.top<=120&&r.bottom>120){sn.classList.add('active');sn.classList.remove('done');}
+    else if(r.bottom<=120){sn.classList.add('done');sn.classList.remove('active');}
+    else{sn.classList.remove('active','done');}
+  }
+}
+document.addEventListener('scroll',()=>{updateProgress();updateStepNav();},{passive:true});
+</script>
+
+<!-- PDF EXPORT MODAL -->
+<div id="pdf-modal" style="display:none;position:fixed;inset:0;z-index:9999;
+  background:oklch(.1 .01 80/.7);align-items:center;justify-content:center;padding:1rem">
+  <div style="background:var(--surface);border-radius:1.25rem;max-width:560px;width:100%;
+    padding:2rem;box-shadow:0 24px 80px oklch(.1 .01 80/.4);position:relative">
+    <button onclick="document.getElementById('pdf-modal').style.display='none'"
+      style="position:absolute;top:1rem;right:1rem;background:var(--offset);border:1px solid var(--border);
+        border-radius:9999px;width:32px;height:32px;cursor:pointer;font-size:1rem;
+        display:flex;align-items:center;justify-content:center;color:var(--muted)">✕</button>
+    <div style="font-family:var(--fd);font-size:1.4rem;margin-bottom:.4rem">📄 PDF-Ausgabe</div>
+    <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.55">
+      Klickt auf <strong>„PDF erstellen"</strong>. Das Dokument enthält alle Eingaben, Bewertungen, Bilder und Auswertungen – als vollständige Arbeitsleistung der Gruppe.
+    </p>
+    <div style="background:var(--offset);border-radius:.875rem;padding:1rem;margin-bottom:1.25rem;font-size:.82rem;color:var(--muted)">
+      <strong style="color:var(--text)">Das PDF enthält:</strong>
+      <ul style="margin:.5rem 0 0 1rem;line-height:1.8;list-style:disc">
+        <li>Alle 8 Raumfotos mit Punktvergabe &amp; Notizen</li>
+        <li>Induktive Kriterien-Erarbeitung (Phase 2)</li>
+        <li>Selbstcheck Franz/Vollmer (Phase 3)</li>
+        <li>Bewertungstabelle aller 8 Räume × 6 Kriterien</li>
+        <li>Gesamtauswertung (Balkendiagramm)</li>
+        <li>Lerntagebuch-Einträge</li>
+        <li>Quellenangaben</li>
+      </ul>
+    </div>
+    <button onclick="generatePDF()" id="pdf-go-btn"
+      style="width:100%;padding:.7rem 1.25rem;background:var(--primary);color:#fff;
+        border-radius:9999px;font-size:.9rem;font-weight:700;border:none;cursor:pointer;
+        transition:background 180ms">
+      📄 PDF erstellen &amp; herunterladen
+    </button>
+    <p style="font-size:.73rem;color:var(--faint);text-align:center;margin-top:.75rem">
+      Nutzt den Browser-Druckdialog (Strg+P) als Alternative – „Als PDF speichern" wählen.
+    </p>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+function openPdfModal(){
+  document.getElementById('pdf-modal').style.display='flex';
+}
+
+async function generatePDF(){
+  const btn=document.getElementById('pdf-go-btn');
+  btn.textContent='⏳ Wird erstellt…';btn.disabled=true;
+
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  const W=210,M=18,CW=W-M*2;
+  let y=0;
+
+  // Colors
+  const C={
+    primary:[1,105,111],
+    text:[40,37,29],
+    muted:[107,106,101],
+    faint:[176,175,170],
+    bg:[247,246,242],
+    surface:[249,248,245],
+    green:[46,125,50],
+    gbg:[238,246,234],
+    red:[198,40,40],
+    rbg:[253,236,234],
+    orange:[192,87,0],
+    obg:[255,243,224],
+    warm:[139,69,19],
+    wbg:[253,243,232],
+    purple:[106,53,176],
+    pubg:[243,238,250],
+    divider:[220,217,213],
+    white:[255,255,255]
+  };
+
+  const stateColors={
+    'yes':{bg:C.gbg,txt:C.green,label:'✓ Erfüllt'},
+    'partial':{bg:C.obg,txt:C.orange,label:'~ Teilweise'},
+    'no':{bg:C.rbg,txt:C.red,label:'✗ Nicht erfüllt'},
+    '':{bg:C.bg,txt:C.muted,label:'–'}
+  };
+
+  function rgb(c){return {r:c[0],g:c[1],b:c[2]};}
+  function setFill(c){doc.setFillColor(c[0],c[1],c[2]);}
+  function setDraw(c){doc.setDrawColor(c[0],c[1],c[2]);}
+  function setTxt(c){doc.setTextColor(c[0],c[1],c[2]);}
+
+  function newPage(){doc.addPage();y=M;}
+
+  function checkY(need){if(y+need>282)newPage();}
+
+  function drawRect(x,ry,w,h,fill,radius=2){
+    setFill(fill);
+    doc.roundedRect(x,ry,w,h,radius,radius,'F');
+  }
+
+  function txt(text,x,ry,opts={}){
+    setTxt(opts.color||C.text);
+    doc.setFontSize(opts.size||10);
+    doc.setFont('helvetica',opts.style||'normal');
+    if(opts.align){doc.text(text,x,ry,{align:opts.align,maxWidth:opts.maxWidth||CW});}
+    else{doc.text(text,x,ry,{maxWidth:opts.maxWidth||CW});}
+  }
+
+  function sectionHeader(label,title,col=C.primary){
+    checkY(22);
+    drawRect(M,y,CW,7,col);
+    setTxt(C.white);
+    doc.setFontSize(7);doc.setFont('helvetica','bold');
+    doc.text(label,M+3,y+3.5);
+    doc.setFontSize(12);doc.setFont('helvetica','bold');
+    doc.text(title,M+3,y+6.5);
+    y+=10;
+  }
+
+  function pill(label,x,ry,bg,tc,w=30,h=5){
+    drawRect(x,ry,w,h,bg,2.5);
+    setTxt(tc);doc.setFontSize(7);doc.setFont('helvetica','bold');
+    doc.text(label,x+w/2,ry+3.5,{align:'center'});
+  }
+
+  // ─── COVER ───────────────────────────────────────────────
+  setFill(C.primary);doc.rect(0,0,W,50,'F');
+  setFill([1,80,85]);doc.rect(0,42,W,8,'F');
+
+  setTxt(C.white);
+  doc.setFontSize(22);doc.setFont('helvetica','bold');
+  doc.text('Gallery Walk',M,22);
+  doc.setFontSize(14);doc.setFont('helvetica','normal');
+  doc.text('Raumwirkung erleben – Arbeitsleistung',M,31);
+  doc.setFontSize(8);
+  doc.text('EBG · Lernfeld 4 · 2BKSP2 · Tübingen 2026',M,44);
+  const now=new Date();
+  doc.text('Erstellt: '+now.toLocaleDateString('de-DE')+' '+now.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}), W-M,44,{align:'right'});
+
+  y=58;
+
+  // Bloom pills
+  pill('Erinnern',M,y,C.gbg,C.green,26,5.5);
+  pill('Verstehen',M+29,y,C.gbg,C.green,26,5.5);
+  pill('Anwenden',M+58,y,C.gbg,C.green,26,5.5);
+  pill('25 min',M+90,y,C.wbg,C.warm,20,5.5);
+  pill('Induktiv',M+113,y,C.pubg,C.purple,22,5.5);
+  y+=10;
+
+  // ─── PHASE 1: FOTOS + NOTIZEN ─────────────────────────────
+  sectionHeader('Phase 1 von 5','Stille Betrachtung – Fotos & Notizen');
+  y+=2;
+
+  // load images + notes
+  const imgMap={};
+  fotos.forEach(f=>{imgMap[f.id]=f;});
+
+  // collect textarea notes from Phase 1
+  const noteData={};
+  document.querySelectorAll('#fotogrid .fc').forEach(fc=>{
+    const fid=fc.dataset.id;
+    const ta=fc.querySelector('textarea');
+    noteData[fid]=ta?ta.value.trim():'';
+  });
+
+  // render fotos in 2-column grid
+  const colW=(CW-5)/2;
+  let col=0;let rowY=y;
+
+  for(let i=0;i<fotos.length;i++){
+    const f=fotos[i];
+    const xPos=M+(col*(colW+5));
+    const cardH=46;
+    checkY(cardH+4);
+    if(col===0)rowY=y;
+
+    drawRect(xPos,rowY,colW,cardH,C.surface,3);
+    setDraw(C.divider);doc.setLineWidth(0.2);
+    doc.roundedRect(xPos,rowY,colW,cardH,3,3,'S');
+
+    // try to embed image
+    try{
+      const imgEl=document.querySelector(`#fotogrid .fc[data-id="${f.id}"] img`);
+      if(imgEl&&imgEl.complete){
+        const cvs=document.createElement('canvas');
+        cvs.width=imgEl.naturalWidth;cvs.height=imgEl.naturalHeight;
+        cvs.getContext('2d').drawImage(imgEl,0,0);
+        const dataUrl=cvs.toDataURL('image/jpeg',0.7);
+        doc.addImage(dataUrl,'JPEG',xPos,rowY,colW,24,undefined,'FAST');
+      }
+    }catch(e){}
+
+    // foto number badge
+    setFill(C.primary);doc.circle(xPos+4,rowY+4,3,'F');
+    setTxt(C.white);doc.setFontSize(6);doc.setFont('helvetica','bold');
+    doc.text(String(f.nr),xPos+4,rowY+5.2,{align:'center'});
+
+    // dot indicators
+    const ds=dotState[f.id]||{};
+    if(ds.g){setFill(C.green);doc.circle(xPos+colW-4,rowY+4,3,'F');setTxt(C.white);doc.setFontSize(7);doc.text('●',xPos+colW-4,rowY+5.5,{align:'center'});}
+    if(ds.r){setFill(C.red);doc.circle(xPos+colW-(ds.g?9:4),rowY+4,3,'F');setTxt(C.white);doc.setFontSize(7);doc.text('●',xPos+colW-(ds.g?9:4),rowY+5.5,{align:'center'});}
+
+    // title
+    setTxt(C.text);doc.setFontSize(8);doc.setFont('helvetica','bold');
+    doc.text(f.ttl,xPos+3,rowY+28,{maxWidth:colW-6});
+
+    // note
+    const note=noteData[f.id]||'';
+    if(note){
+      setTxt(C.muted);doc.setFontSize(7);doc.setFont('helvetica','normal');
+      const lines=doc.splitTextToSize(note,colW-6);
+      doc.text(lines.slice(0,2),xPos+3,rowY+33);
+    }else{
+      setTxt(C.faint);doc.setFontSize(7);doc.setFont('helvetica','italic');
+      doc.text('(keine Notiz)',xPos+3,rowY+33);
+    }
+
+    col++;
+    if(col===2||i===fotos.length-1){col=0;y=rowY+cardH+3;}
+  }
+  y+=4;
+
+  // ─── PHASE 2: INDUKTIVE KRITERIEN ────────────────────────
+  sectionHeader('Phase 2 von 5','Induktive Kriterien-Erarbeitung');
+  y+=2;
+
+  const phase2Qs=[
+    {sel:'#sec2 .ind-card:nth-child(1) textarea',q:'Was hatte der Raum mit dem grünen Punkt?'},
+    {sel:'#sec2 .ind-card:nth-child(2) textarea',q:'Was störte am roten-Punkt-Raum?'},
+    {sel:'#sec2 .ind-card:nth-child(3) textarea',q:'Möglichkeiten zur Bewegung?'},
+    {sel:'#sec2 .ind-card:nth-child(4) textarea',q:'Allein vs. zusammen spielen?'},
+    {sel:'#sec2 .ind-card:nth-child(5) textarea',q:'Farben, Licht und Materialien?'},
+    {sel:'#sec2 .ind-card:nth-child(6) textarea',q:'Veränderbar vs. fest?'}
+  ];
+
+  phase2Qs.forEach((q,i)=>{
+    const el=document.querySelector(q.sel);
+    const val=el?el.value.trim():'';
+    checkY(14);
+    drawRect(M,y,CW,12,C.surface,2);
+    setTxt(C.primary);doc.setFontSize(7);doc.setFont('helvetica','bold');
+    doc.text(q.q,M+3,y+4.5,{maxWidth:CW-6});
+    if(val){setTxt(C.text);doc.setFontSize(8);doc.setFont('helvetica','normal');doc.text(doc.splitTextToSize(val,CW-6).slice(0,2),M+3,y+9);}
+    else{setTxt(C.faint);doc.setFontSize(7);doc.setFont('helvetica','italic');doc.text('(keine Eingabe)',M+3,y+9);}
+    y+=14;
+  });
+
+  // Partner merge result
+  checkY(16);
+  drawRect(M,y,CW,14,C.pubg,3);
+  setTxt(C.purple);doc.setFontSize(8);doc.setFont('helvetica','bold');
+  doc.text('👥 Gemeinsame Kriterien (Partnerphase)',M+3,y+5.5);
+  const mergeChips=[...document.querySelectorAll('#merge-result span')].map(s=>s.textContent).join(' · ');
+  const mergeTa=document.getElementById('merge-ta');
+  const mergeExtra=mergeTa?mergeTa.value.trim():'';
+  const mergeAll=[mergeChips,mergeExtra].filter(Boolean).join(' | ')||'(keine Auswahl)';
+  setTxt(C.text);doc.setFontSize(8);doc.setFont('helvetica','normal');
+  doc.text(doc.splitTextToSize(mergeAll,CW-6),M+3,y+11);
+  y+=18;
+
+  // ─── PHASE 3: VERGLEICH ──────────────────────────────────
+  sectionHeader('Phase 3 von 5','Vergleich mit Franz/Vollmer 2012');
+  y+=2;
+
+  // own criteria
+  const ownKritEl=document.getElementById('own-krit');
+  const ownKrit=ownKritEl?ownKritEl.value.trim():'';
+  checkY(20);
+  drawRect(M,y,CW/2-2,18,C.gbg,3);
+  setTxt(C.green);doc.setFontSize(7);doc.setFont('helvetica','bold');doc.text('Eigene Kriterien (Plenum)',M+3,y+5);
+  setTxt(C.text);doc.setFontSize(8);doc.setFont('helvetica','normal');
+  doc.text(doc.splitTextToSize(ownKrit||'(keine Eingabe)',CW/2-8),M+3,y+10);
+
+  // self-check checkboxes
+  const checkLabels=['🔐 Sicherheit','🏃 Bewegung','🗂 Struktur','🔄 Veränderbarkeit','🎨 Ästhetik','🤝 Soziales'];
+  const checkEls=[...document.querySelectorAll('#self-check-list input')];
+  const checkResults=checkEls.map((c,i)=>({lbl:checkLabels[i],found:c.checked}));
+  const foundCount=checkResults.filter(r=>r.found).length;
+
+  drawRect(M+CW/2+2,y,CW/2-2,18,C.phi||[205,232,230],3);
+  setTxt(C.primary);doc.setFontSize(7);doc.setFont('helvetica','bold');
+  doc.text('Selbstcheck: '+foundCount+'/6 Kriterien gefunden',M+CW/2+5,y+5);
+  checkResults.forEach((r,i)=>{
+    const cx=M+CW/2+5+(i%3)*((CW/2-10)/3);
+    const cy=y+10+(Math.floor(i/3)*5);
+    setFill(r.found?C.green:C.divider);doc.circle(cx,cy,1.5,'F');
+    setTxt(r.found?C.green:C.muted);doc.setFontSize(6.5);doc.setFont('helvetica',r.found?'bold':'normal');
+    doc.text(r.lbl.replace(/[^\x00-\x7F]/g,''),cx+3,cy+0.8);
+  });
+  y+=22;
+
+  // ─── PHASE 4: BEWERTUNGSTABELLE ──────────────────────────
+  sectionHeader('Phase 4 von 5','Foto-Bewertung nach 6 Kriterien');
+  y+=2;
+
+  // Table header
+  const critLabels=krit.map(k=>k.lbl);
+  const colsCount=critLabels.length+2;// nr + title + 6 krits
+  const nrW=8,titleW=36,kritCW=(CW-nrW-titleW)/6;
+
+  // header row
+  drawRect(M,y,CW,7,C.primary,2);
+  setTxt(C.white);doc.setFontSize(7);doc.setFont('helvetica','bold');
+  doc.text('Nr.',M+2,y+4.5);
+  doc.text('Raum',M+nrW+2,y+4.5);
+  critLabels.forEach((cl,ci)=>{
+    doc.text(cl,M+nrW+titleW+ci*kritCW+kritCW/2,y+4.5,{align:'center',maxWidth:kritCW-1});
+  });
+  y+=8;
+
+  // data rows
+  fotos.forEach((f,fi)=>{
+    const rowH=8;
+    checkY(rowH+1);
+    const bg=fi%2===0?C.surface:C.bg;
+    drawRect(M,y,CW,rowH,bg,0);
+    setDraw(C.divider);doc.setLineWidth(0.15);
+    doc.line(M,y+rowH,M+CW,y+rowH);
+
+    setTxt(C.primary);doc.setFontSize(7);doc.setFont('helvetica','bold');
+    doc.text(String(f.nr),M+2,y+5);
+
+    setTxt(C.text);doc.setFont('helvetica','normal');
+    doc.text(f.ttl,M+nrW+2,y+5,{maxWidth:titleW-3});
+
+    krit.forEach((k,ki)=>{
+      const st=bewState[f.id][k.lbl]||'';
+      const sc=stateColors[st];
+      const cx=M+nrW+titleW+ki*kritCW;
+      drawRect(cx+1,y+1,kritCW-2,rowH-2,sc.bg,1.5);
+      setTxt(sc.txt);doc.setFontSize(7);doc.setFont('helvetica','bold');
+      const lbl=st==='yes'?'✓':st==='partial'?'~':st==='no'?'✗':'–';
+      doc.text(lbl,cx+kritCW/2,y+5.5,{align:'center'});
+    });
+    y+=rowH+1;
+  });
+  y+=6;
+
+  // Bew Notizen
+  checkY(8);
+  setTxt(C.muted);doc.setFontSize(7);doc.setFont('helvetica','italic');
+  doc.text('Legende: ✓ erfüllt  ~  teilweise erfüllt  ✗ nicht erfüllt  – nicht bewertet',M,y);
+  y+=6;
+
+  // Begründungen
+  let hasBeg=false;
+  fotos.forEach(f=>{
+    const bewCard=document.getElementById('bew_'+f.id);
+    if(!bewCard)return;
+    const ta=bewCard.querySelector('textarea');
+    const val=ta?ta.value.trim():'';
+    if(val){
+      if(!hasBeg){
+        checkY(10);
+        setTxt(C.primary);doc.setFontSize(8);doc.setFont('helvetica','bold');
+        doc.text('Begründungen:',M,y);y+=5;hasBeg=true;
+      }
+      checkY(12);
+      drawRect(M,y,CW,10,C.surface,2);
+      setTxt(C.primary);doc.setFontSize(7);doc.setFont('helvetica','bold');
+      doc.text('Foto '+f.nr+' – '+f.ttl+':',M+3,y+4);
+      setTxt(C.text);doc.setFont('helvetica','normal');
+      doc.text(doc.splitTextToSize(val,CW-6).slice(0,2),M+3,y+8);
+      y+=12;
+    }
+  });
+
+  // ─── GESAMTAUSWERTUNG ────────────────────────────────────
+  sectionHeader('Gesamtauswertung','Kriterien-Erfüllung über alle 8 Räume');
+  y+=2;
+
+  const barMaxW=CW-60;
+  krit.forEach((k,ki)=>{
+    const yes=fotos.filter(f=>bewState[f.id][k.lbl]==='yes').length;
+    const partial=fotos.filter(f=>bewState[f.id][k.lbl]==='partial').length;
+    checkY(9);
+    setTxt(C.text);doc.setFontSize(8);doc.setFont('helvetica','normal');
+    doc.text(k.ico.replace(/[^\x00-\x7F]/g,'')+' '+k.lbl,M,y+4);
+    // bar background
+    drawRect(M+42,y,barMaxW,5,C.divider,2);
+    // yes bar
+    if(yes>0){drawRect(M+42,y,(yes/8)*barMaxW,5,C.primary,2);}
+    // partial overlay
+    if(partial>0){drawRect(M+42+(yes/8)*barMaxW,y,(partial/8)*barMaxW,5,[220,160,50],2);}
+    setTxt(C.muted);doc.setFontSize(7);
+    doc.text(yes+'×✓ '+(partial>0?partial+'×~ ':'')+'/ 8',M+42+barMaxW+3,y+4);
+    y+=9;
+  });
+  y+=4;
+
+  // ─── LERNTAGEBUCH ────────────────────────────────────────
+  sectionHeader('Phase 5 von 5','Lerntagebuch');
+  y+=2;
+
+  const ltQs=[
+    'Welches Foto hat mich am stärksten berührt – und warum?',
+    'Welches Kriterium war mir bis heute nicht bewusst?',
+    'Was würde ich in meiner Praxiseinrichtung als erstes verändern?',
+    'Raum als „dritter Erzieher" (Malaguzzi): Was bedeutet das für mich?'
+  ];
+  document.querySelectorAll('#sec5 .lt-qs textarea').forEach((ta,i)=>{
+    if(i>=ltQs.length)return;
+    const val=ta.value.trim();
+    checkY(16);
+    drawRect(M,y,CW,14,C.pubg,3);
+    setTxt(C.purple);doc.setFontSize(7);doc.setFont('helvetica','bold');
+    doc.text((i+1)+'. '+ltQs[i],M+3,y+5,{maxWidth:CW-6});
+    if(val){setTxt(C.text);doc.setFontSize(8);doc.setFont('helvetica','normal');doc.text(doc.splitTextToSize(val,CW-6).slice(0,2),M+3,y+10);}
+    else{setTxt(C.faint);doc.setFontSize(7);doc.setFont('helvetica','italic');doc.text('(keine Eingabe)',M+3,y+10);}
+    y+=16;
+  });
+  y+=4;
+
+  // ─── QUELLEN ─────────────────────────────────────────────
+  sectionHeader('Quellenangaben','Wissenschaftliche Grundlagen');
+  y+=2;
+
+  const quellen=[
+    'Franz, M. & Vollmer, M. (2012). Qualitätskriterien der Raumgestaltung. KiTa aktuell Spezial, 3/2012.',
+    'van Dieken, C. (2013). Ganz nah dabei. Cornelsen, Berlin. ISBN 978-3-589-24561-2.',
+    'Watzlawick, P. (1969). Menschliche Kommunikation. Huber, Bern.',
+    'Baum, H. (2011). Funktionsräume und Lernwerkstätten als Bildungsoasen. kindergartenpaedagogik.de, Nr. 2289.',
+    'Malaguzzi, L. (1993). Der Raum als Dritter Erzieher. In: Fthenakis (Hrsg.), Reggio-Pädagogik. Herder, Freiburg.',
+    'Weber Herrmann, G. (2015). 6 kindliche Grundbedürfnisse. Bildungsräume für Kinder gestalten. Cornelsen, Berlin.'
+  ];
+  quellen.forEach((q,i)=>{
+    checkY(8);
+    drawRect(M,y,4,6,C.primary,1);
+    setTxt(C.text);doc.setFontSize(8);doc.setFont('helvetica','normal');
+    doc.text(q,M+7,y+4.5,{maxWidth:CW-7});
+    y+=8;
+  });
+
+  // ─── FOOTER auf jeder Seite ──────────────────────────────
+  const pageCount=doc.getNumberOfPages();
+  for(let p=1;p<=pageCount;p++){
+    doc.setPage(p);
+    if(p>1){
+      setFill(C.primary);doc.rect(0,285,W,12,'F');
+      setTxt(C.white);doc.setFontSize(7);doc.setFont('helvetica','normal');
+      doc.text('EBG · LF 4 · 2BKSP2 · Gallery Walk – Raumwirkung erleben · Seite '+p+' von '+pageCount,M,291);
+      doc.text('Quellen: Franz/Vollmer 2012 · Watzlawick 1969 · Malaguzzi 1993',W-M,291,{align:'right'});
+    }
+  }
+
+  const fname='GalleryWalk_Arbeitsleistung_'+now.toLocaleDateString('de-DE').replace(/\./g,'-')+'.pdf';
+  doc.save(fname);
+  btn.textContent='✅ PDF heruntergeladen!';
+  setTimeout(()=>{btn.textContent='📄 PDF erstellen & herunterladen';btn.disabled=false;},3000);
+}
+</script>
+
+</body>
+</html>
